@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>chr</title>
+
+<!-- Font estetik -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  font-family:'Poppins', sans-serif;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* background blur */
+body::before{
+  content:"";
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background:url("bg.jpg") no-repeat center center;
+  background-size:cover;
+  filter: blur(8px) brightness(0.7);
+  z-index:-1;
+}
+
+/* box utama */
+.box{
+  text-align:center;
+  background: rgba(0,0,0,0.55);
+  padding: 28px 32px;
+  border-radius: 18px;
+  width: 260px;
+}
+
+/* nama */
+h1{
+  font-weight:600;
+  letter-spacing:1.5px;
+  margin-bottom:22px;
+  font-size:22px;
+}
+
+/* tombol */
+a{
+  display:block;
+  margin:12px 0;
+  padding:11px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.15);
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+  transition:0.3s;
+}
+
+a:hover{
+  background: rgba(255,255,255,0.12);
+}
+</style>
+</head>
+
+<body>
+  <div class="box">
+    <h1>𝐂𝐡𝐫.𝐑𝐚𝐭𝐬𝐲𝐚🔥</h1>
+
+    <a href="https://www.instagram.com/chr.ratsyh?igsh=MXJyZ3BscDlqb2wzcw==" target="_blank">
+      Instagram 1
+    </a>
+
+    <a href="https://www.instagram.com/chr.ratsyah?igsh=MXJtdjhxZm5xMDdmdA==" target="_blank">
+      Instagram 2
+    </a>
+
+    <a href="https://www.tiktok.com/@adtyrtsyh?_r=1&_t=ZS-93AiWYzORef" target="_blank">
+      TikTok
+    </a>
+  </div>
+</body>
+</html>
