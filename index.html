@@ -74,7 +74,6 @@ body {
   flex-direction: column;
   align-items: center;
   transform-origin: top center;
-  /* Menerapkan 1 animasi continuous secara seamless */
   animation: dropAndSwing 4.5s ease-in-out infinite alternate;
 }
 
@@ -88,27 +87,16 @@ body {
 .hanging-spidey {
   width: 65px;
   height: auto;
-  margin-top: -1px; /* Menyambungkan jaring tepat di titik atas */
+  margin-top: -1px;
   filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.6));
 }
 
-/* Keyframe Tunggal: Turun Halus Langsung Berayun Mulus */
 @keyframes dropAndSwing {
-  0% {
-    transform: translateX(-50%) translateY(-350px) rotate(0deg);
-  }
-  25% {
-    transform: translateX(-50%) translateY(0px) rotate(-8deg);
-  }
-  50% {
-    transform: translateX(-50%) translateY(0px) rotate(8deg);
-  }
-  75% {
-    transform: translateX(-50%) translateY(0px) rotate(-8deg);
-  }
-  100% {
-    transform: translateX(-50%) translateY(0px) rotate(8deg);
-  }
+  0% { transform: translateX(-50%) translateY(-350px) rotate(0deg); }
+  25% { transform: translateX(-50%) translateY(0px) rotate(-8deg); }
+  50% { transform: translateX(-50%) translateY(0px) rotate(8deg); }
+  75% { transform: translateX(-50%) translateY(0px) rotate(-8deg); }
+  100% { transform: translateX(-50%) translateY(0px) rotate(8deg); }
 }
 
 /* Teks Intro & Loading Bar */
@@ -176,6 +164,40 @@ body {
 @keyframes pulseBlink {
   0% { opacity: 0.8; transform: scale(0.98); }
   100% { opacity: 1; transform: scale(1.02); }
+}
+
+/* --- BANNER 111 SIGHTINGS (DI LUAR KOTAK / TERPISAH DI ATAS) --- */
+.floating-sightings-banner {
+  position: fixed;
+  top: -120px; /* Sembunyi di luar atas layar */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fde047;
+  border: 3px solid #000000;
+  color: #000000;
+  padding: 8px 16px;
+  text-align: center;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  border-radius: 6px;
+  box-shadow: inset -2px -2px 0px #ca8a04, 0px 8px 16px rgba(0,0,0,0.5);
+  z-index: 100;
+  opacity: 0;
+  transition: top 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
+  pointer-events: none;
+}
+
+/* Ketika Aktif: Meluncur Turun & Memudar Jelas */
+.floating-sightings-banner.show-banner {
+  top: 35px; /* Turun di atas tabel utama */
+  opacity: 1;
+}
+
+.floating-sightings-banner .count {
+  font-size: 10px;
+  color: #ef4444;
+  display: block;
+  margin-bottom: 3px;
 }
 
 /* --- KONTEN UTAMA --- */
@@ -345,6 +367,12 @@ a:active {
 
 <body>
 
+  <!-- BANNER "111 UNEXPLORED SIGHTINGS" (MELAYANG DI ATAS DARI LUAR TABEL) -->
+  <div class="floating-sightings-banner" id="sightingsBanner">
+    <span class="count">111 UNEXPLORED</span>
+    <span>SIGHTINGS</span>
+  </div>
+
   <!-- INTRO SCREEN OVERLAY -->
   <div id="introOverlay">
 
@@ -406,6 +434,10 @@ a:active {
   </div>
 
   <script>
+    // --- SETUP AUDIO FILE UNTUK GITHUB ---
+    const welcomeAudio = new Audio('welcome.mp3');
+    const sightingsAudio = new Audio('sightings.mp3');
+
     // --- ANIMASI LOADING INTRO ---
     let progress = 0;
     const fillBar = document.getElementById('loadingFill');
@@ -426,11 +458,41 @@ a:active {
     }, 250);
 
     function closeIntro() {
+      // 1. Jalankan suara Beep klik tombol
       playBeep();
+
+      // 2. Bunyi audio welcome eksternal dari GitHub
+      welcomeAudio.play().catch(e => console.log('Audio welcome belum disiapkan:', e));
+
+      // 3. Tutup overlay intro
       const overlay = document.getElementById('introOverlay');
       overlay.style.opacity = '0';
       overlay.style.visibility = 'hidden';
+
+      // 4. Picu banner luar meluncur dari atas luar tabel
+      showSightingsBanner();
+
+      // 5. Jalankan teks berjalan
       startTickerCycle();
+    }
+
+    // --- LOGIKA POP-UP 111 SIGHTINGS ---
+    function showSightingsBanner() {
+      const banner = document.getElementById('sightingsBanner');
+
+      setTimeout(() => {
+        // Meluncur turun & memudar jelas
+        banner.classList.add('show-banner');
+        
+        // Bunyi audio sightings
+        sightingsAudio.play().catch(e => console.log('Audio sightings belum disiapkan:', e));
+
+        // Setelah 4 detik, meluncur kembali ke atas & memudar hilang
+        setTimeout(() => {
+          banner.classList.remove('show-banner');
+        }, 4000);
+
+      }, 300);
     }
 
     // --- LOGIKA TEXT RUNNING ---
@@ -472,6 +534,7 @@ a:active {
       }, 2000);
     }
 
+    // --- FUNGSI SUARA BEEP KLIK ---
     function playBeep() {
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const osc = audioCtx.createOscillator();
