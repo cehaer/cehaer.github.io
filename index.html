@@ -64,7 +64,61 @@ body {
   padding: 20px;
 }
 
+/* ANIMASI SPIDER-MAN TURUN & BERGELANTUNG MULUS TANPA JEDA */
+.swing-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: top center;
+  /* Menerapkan 1 animasi continuous secara seamless */
+  animation: dropAndSwing 4.5s ease-in-out infinite alternate;
+}
+
+.web-line {
+  width: 3px;
+  height: 110px;
+  background: #ffffff;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+}
+
+.hanging-spidey {
+  width: 65px;
+  height: auto;
+  margin-top: -1px; /* Menyambungkan jaring tepat di titik atas */
+  filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.6));
+}
+
+/* Keyframe Tunggal: Turun Halus Langsung Berayun Mulus */
+@keyframes dropAndSwing {
+  0% {
+    transform: translateX(-50%) translateY(-350px) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-50%) translateY(0px) rotate(-8deg);
+  }
+  50% {
+    transform: translateX(-50%) translateY(0px) rotate(8deg);
+  }
+  75% {
+    transform: translateX(-50%) translateY(0px) rotate(-8deg);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0px) rotate(8deg);
+  }
+}
+
 /* Teks Intro & Loading Bar */
+.intro-content-box {
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .intro-title {
   font-family: 'Press Start 2P', cursive;
   font-size: 13px;
@@ -271,7 +325,7 @@ a:active {
   width: 90px;
   height: 90px;
   z-index: 10;
-  animation: floatSpider 1.2s ease-in-out infinite; /* Kecepatan diubah menjadi 1.2s agar lebih cepat */
+  animation: floatSpider 1.2s ease-in-out infinite;
   filter: drop-shadow(0px 0px 10px rgba(239, 68, 68, 0.5));
 }
 
@@ -291,17 +345,27 @@ a:active {
 
 <body>
 
-  <!-- INTRO SCREEN OVERLAY (GELANTUNG SEMENTARA DIKOSONGKAN) -->
+  <!-- INTRO SCREEN OVERLAY -->
   <div id="introOverlay">
 
-    <div class="intro-title">WELCOME TO THE SPIDEY TRACKER.</div>
-    <div class="intro-desc">INTERACT WITH THE MAP TO VIEW SPIDER-MAN SIGHTINGS ALL OVER THE WORLD.</div>
-
-    <div class="loading-bar-box" id="loadingBox">
-      <div class="loading-bar-fill" id="loadingFill"></div>
+    <!-- SPIDER-MAN GELANTUNG TURUN & BERAYUN MULUS -->
+    <div class="swing-container">
+      <div class="web-line"></div>
+      <img src="spidey.jpg" alt="Spider-Man Hanging" class="hanging-spidey">
     </div>
 
-    <button class="enter-btn" id="enterBtn" onclick="closeIntro()">START TRACKING</button>
+    <!-- TEKS INTRO & LOADING -->
+    <div class="intro-content-box">
+      <div class="intro-title">WELCOME TO THE SPIDEY TRACKER.</div>
+      <div class="intro-desc">INTERACT WITH THE MAP TO VIEW SPIDER-MAN SIGHTINGS ALL OVER THE WORLD.</div>
+
+      <div class="loading-bar-box" id="loadingBox">
+        <div class="loading-bar-fill" id="loadingFill"></div>
+      </div>
+
+      <button class="enter-btn" id="enterBtn" onclick="closeIntro()">START TRACKING</button>
+    </div>
+
   </div>
 
   <div class="bg-overlay"></div>
