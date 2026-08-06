@@ -60,7 +60,7 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  transition: opacity 0.8s ease, visibility 0.8s;
+  transition: opacity 0.5s ease, visibility 0.5s;
   padding: 20px;
 }
 
@@ -166,38 +166,79 @@ body {
   100% { opacity: 1; transform: scale(1.02); }
 }
 
-/* --- BANNER 111 SIGHTINGS (DI LUAR KOTAK / TERPISAH DI ATAS) --- */
-.floating-sightings-banner {
+/* --- OVERLAY INITIALIZING MAP (LAYAR LOADING TRANSISI LENGKAP) --- */
+#mapLoadingOverlay {
   position: fixed;
-  top: -120px; /* Sembunyi di luar atas layar */
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fde047;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: #182026;
+  z-index: 998;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease, visibility 0.5s;
+}
+
+/* TEKS INITIALIZING MAP BERKEDIP SEDIKIT AGAK PELAN */
+.initializing-text {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  color: #7dd3fc;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px #000;
+  animation: slowBlink 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes slowBlink {
+  0% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+
+.map-bottom-bar {
+  position: absolute;
+  bottom: 25px;
+  width: 85%;
+  max-width: 320px;
+  background: #27272a;
   border: 3px solid #000000;
-  color: #000000;
-  padding: 8px 16px;
+  border-radius: 6px;
+  padding: 10px;
   text-align: center;
   font-family: 'Press Start 2P', cursive;
-  font-size: 8px;
-  border-radius: 6px;
-  box-shadow: inset -2px -2px 0px #ca8a04, 0px 8px 16px rgba(0,0,0,0.5);
+  font-size: 9px;
+  color: #9ca3af;
+  box-shadow: inset -2px -2px 0px #18181b, 0px 4px 0px #000;
+}
+
+/* --- BANNER GAMBAR SIGHTING.JPG (PRESISI DI TENGAH-TENGAH ATAS) --- */
+.floating-sightings-banner {
+  position: fixed;
+  top: -180px; /* Sembunyi di luar atas layar */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px; /* Lebar banner */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 100;
   opacity: 0;
   transition: top 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
   pointer-events: none;
+  filter: drop-shadow(0px 8px 16px rgba(0,0,0,0.6));
 }
 
-/* Ketika Aktif: Meluncur Turun & Memudar Jelas */
-.floating-sightings-banner.show-banner {
-  top: 35px; /* Turun di atas tabel utama */
-  opacity: 1;
-}
-
-.floating-sightings-banner .count {
-  font-size: 10px;
-  color: #ef4444;
+.floating-sightings-banner img {
+  width: 100%;
+  height: auto;
   display: block;
-  margin-bottom: 3px;
+  margin: 0 auto;
+}
+
+/* Ketika Aktif: Meluncur Turun Tepat di Tengah-Tengah Atas */
+.floating-sightings-banner.show-banner {
+  top: 20px; /* Posisi di bagian atas layar */
+  opacity: 1;
 }
 
 /* --- KONTEN UTAMA --- */
@@ -367,16 +408,15 @@ a:active {
 
 <body>
 
-  <!-- BANNER "111 UNEXPLORED SIGHTINGS" (MELAYANG DI ATAS DARI LUAR TABEL) -->
+  <!-- BANNER GAMBAR SIGHTING.JPG -->
   <div class="floating-sightings-banner" id="sightingsBanner">
-    <span class="count">111 UNEXPLORED</span>
-    <span>SIGHTINGS</span>
+    <img src="sighting.jpg" alt="107 Unexplored Sightings">
   </div>
 
   <!-- INTRO SCREEN OVERLAY -->
   <div id="introOverlay">
 
-    <!-- SPIDER-MAN GELANTUNG TURUN & BERAYUN MULUS -->
+    <!-- SPIDER-MAN GELANTUNG TURUN & BERGELANTUNG MULUS -->
     <div class="swing-container">
       <div class="web-line"></div>
       <img src="spidey.jpg" alt="Spider-Man Hanging" class="hanging-spidey">
@@ -394,6 +434,12 @@ a:active {
       <button class="enter-btn" id="enterBtn" onclick="closeIntro()">START TRACKING</button>
     </div>
 
+  </div>
+
+  <!-- OVERLAY LOADING INITIALIZING MAP (LENGKAP) -->
+  <div id="mapLoadingOverlay">
+    <div class="initializing-text">INITIALIZING MAP...</div>
+    <div class="map-bottom-bar">LOADING</div>
   </div>
 
   <div class="bg-overlay"></div>
@@ -416,11 +462,11 @@ a:active {
     </div>
 
     <a href="https://www.instagram.com/chr.ratsyh?igsh=MXJyZ3BscDlqb2wzcw==" target="_blank" onclick="playBeep()">
-      <i class="fa-brands fa-instagram"></i> INSTAGRAM 1
+      <i class="fa-brands fa-instagram"></i> INSTAGRAM I
     </a>
 
     <a href="https://www.instagram.com/chr.ratsyah?igsh=MXJtdjhxZm5xMDdmdA==" target="_blank" onclick="playBeep()">
-      <i class="fa-brands fa-instagram"></i> INSTAGRAM 2
+      <i class="fa-brands fa-instagram"></i> INSTAGRAM II
     </a>
 
     <a href="https://www.tiktok.com/@adtyrtsyh?_r=1&_t=ZS-93AiWYzORef" target="_blank" onclick="playBeep()">
@@ -438,7 +484,7 @@ a:active {
     const welcomeAudio = new Audio('welcome.mp3');
     const sightingsAudio = new Audio('sightings.mp3');
 
-    // --- ANIMASI LOADING INTRO ---
+    // --- ANIMASI LOADING INTRO AWAL ---
     let progress = 0;
     const fillBar = document.getElementById('loadingFill');
     const loadingBox = document.getElementById('loadingBox');
@@ -458,25 +504,39 @@ a:active {
     }, 250);
 
     function closeIntro() {
-      // 1. Jalankan suara Beep klik tombol
+      // 1. Jalankan suara Beep saat tombol START TRACKING diklik
       playBeep();
 
-      // 2. Bunyi audio welcome eksternal dari GitHub
-      welcomeAudio.play().catch(e => console.log('Audio welcome belum disiapkan:', e));
+      // 2. Tutup overlay intro
+      const introOverlay = document.getElementById('introOverlay');
+      introOverlay.style.opacity = '0';
+      introOverlay.style.visibility = 'hidden';
 
-      // 3. Tutup overlay intro
-      const overlay = document.getElementById('introOverlay');
-      overlay.style.opacity = '0';
-      overlay.style.visibility = 'hidden';
+      // 3. Tampilkan Layar Loading Transition "INITIALIZING MAP..."
+      const mapLoadingOverlay = document.getElementById('mapLoadingOverlay');
+      mapLoadingOverlay.style.display = 'flex';
 
-      // 4. Picu banner luar meluncur dari atas luar tabel
-      showSightingsBanner();
+      // 4. Jeda sebentar sebelum masuk ke tampilan utama
+      setTimeout(() => {
+        // Hilangkan layar loading transisi
+        mapLoadingOverlay.style.opacity = '0';
+        mapLoadingOverlay.style.visibility = 'hidden';
 
-      // 5. Jalankan teks berjalan
-      startTickerCycle();
+        setTimeout(() => {
+          mapLoadingOverlay.style.display = 'none';
+        }, 500);
+
+        // Putar audio welcome setelah loading map selesai
+        welcomeAudio.play().catch(e => console.log('Audio welcome belum disiapkan:', e));
+
+        // Munculkan banner gambar luar dan jalankan teks running
+        showSightingsBanner();
+        startTickerCycle();
+
+      }, 2500); // Durasi jeda loading map: 2.5 detik
     }
 
-    // --- LOGIKA POP-UP 111 SIGHTINGS ---
+    // --- LOGIKA POP-UP GAMBAR SIGHTING.JPG ---
     function showSightingsBanner() {
       const banner = document.getElementById('sightingsBanner');
 
@@ -487,10 +547,10 @@ a:active {
         // Bunyi audio sightings
         sightingsAudio.play().catch(e => console.log('Audio sightings belum disiapkan:', e));
 
-        // Setelah 4 detik, meluncur kembali ke atas & memudar hilang
+        // Tampil tepat selama 3 detik (3000ms)
         setTimeout(() => {
           banner.classList.remove('show-banner');
-        }, 4000);
+        }, 3000);
 
       }, 300);
     }
