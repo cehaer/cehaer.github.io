@@ -47,6 +47,18 @@ body {
   z-index: -2;
 }
 
+/* --- GAMBAR HEADER TRACKER.JPG DI ATAS TENGAH (LUAR BOX) --- */
+.top-tracker-logo {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: auto;
+  z-index: 10;
+  filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.6));
+}
+
 /* --- OVERLAY INTRO SPIDEY TRACKER --- */
 #introOverlay {
   position: fixed;
@@ -236,7 +248,7 @@ body {
 
 /* Ketika Aktif: Meluncur Turun Tepat di Tengah-Tengah Atas */
 .floating-sightings-banner.show-banner {
-  top: 20px; /* Posisi di bagian atas layar */
+  top: 70px; /* Diturunkan sedikit agar tidak menutupi tracker.jpg */
   opacity: 1;
 }
 
@@ -254,6 +266,7 @@ body {
     inset 4px 4px 0px #38bdf8,
     8px 8px 0px #000000;
   z-index: 2;
+  margin-top: 50px;
 }
 
 .pixel-header {
@@ -406,6 +419,9 @@ a:active {
 </head>
 
 <body>
+
+  <!-- GAMBAR TRACKER.JPG TEPAT DI ATAS TENGAH -->
+  <img src="tracker.jpg" alt="Spidey Tracker Banner" class="top-tracker-logo">
 
   <div class="floating-sightings-banner" id="sightingsBanner">
     <img src="sighting.jpg" alt="107 Unexplored Sightings">
