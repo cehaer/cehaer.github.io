@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Spidey Tracker - Chr.Ratsya</title>
 
-<!-- Font Pixel Art Retro -->
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -408,21 +407,17 @@ a:active {
 
 <body>
 
-  <!-- BANNER GAMBAR SIGHTING.JPG -->
   <div class="floating-sightings-banner" id="sightingsBanner">
     <img src="sighting.jpg" alt="107 Unexplored Sightings">
   </div>
 
-  <!-- INTRO SCREEN OVERLAY -->
   <div id="introOverlay">
 
-    <!-- SPIDER-MAN GELANTUNG TURUN & BERGELANTUNG MULUS -->
     <div class="swing-container">
       <div class="web-line"></div>
       <img src="spidey.jpg" alt="Spider-Man Hanging" class="hanging-spidey">
     </div>
 
-    <!-- TEKS INTRO & LOADING -->
     <div class="intro-content-box">
       <div class="intro-title">WELCOME TO THE SPIDEY TRACKER.</div>
       <div class="intro-desc">INTERACT WITH THE MAP TO VIEW SPIDER-MAN SIGHTINGS ALL OVER THE WORLD.</div>
@@ -436,7 +431,6 @@ a:active {
 
   </div>
 
-  <!-- OVERLAY LOADING INITIALIZING MAP (LENGKAP) -->
   <div id="mapLoadingOverlay">
     <div class="initializing-text">INITIALIZING MAP...</div>
     <div class="map-bottom-bar">LOADING</div>
@@ -445,7 +439,6 @@ a:active {
   <div class="bg-overlay"></div>
   <div class="pixel-map-grid"></div>
 
-  <!-- GAMBAR LOGO SPIDER-MAN DI POJOK KIRI BAWAH -->
   <div class="spider-corner">
     <img src="Spiderman.jpg" alt="Spider-Man Logo">
   </div>
@@ -480,8 +473,13 @@ a:active {
   </div>
 
   <script>
-    // --- SETUP AUDIO FILE UNTUK GITHUB ---
-    const welcomeAudio = new Audio('welcome.mp3');
+    // --- DAFTAR 3 AUDIO WELCOME RANDOM (SESUAIKAN NAMA FILE KAMU DI GITHUB) ---
+    const welcomeAudios = [
+      new Audio('welcome1.mp3'),
+      new Audio('welcome2.mp3'),
+      new Audio('welcome3.mp3')
+    ];
+
     const sightingsAudio = new Audio('sightings.mp3');
 
     // --- ANIMASI LOADING INTRO AWAL ---
@@ -507,16 +505,21 @@ a:active {
       // 1. Jalankan suara Beep saat tombol START TRACKING diklik
       playBeep();
 
-      // 2. Tutup overlay intro
+      // 2. PILIH SALAH SATU AUDIO WELCOME SECHARA RANDOM & PUTAR LANGSUNG
+      const randomIndex = Math.floor(Math.random() * welcomeAudios.length);
+      const selectedWelcomeAudio = welcomeAudios[randomIndex];
+      selectedWelcomeAudio.play().catch(e => console.log('Audio welcome belum disiapkan:', e));
+
+      // 3. Tutup overlay intro
       const introOverlay = document.getElementById('introOverlay');
       introOverlay.style.opacity = '0';
       introOverlay.style.visibility = 'hidden';
 
-      // 3. Tampilkan Layar Loading Transition "INITIALIZING MAP..."
+      // 4. Tampilkan Layar Loading Transition "INITIALIZING MAP..."
       const mapLoadingOverlay = document.getElementById('mapLoadingOverlay');
       mapLoadingOverlay.style.display = 'flex';
 
-      // 4. Jeda sebentar sebelum masuk ke tampilan utama
+      // 5. Jeda sebentar sebelum masuk ke tampilan utama
       setTimeout(() => {
         // Hilangkan layar loading transisi
         mapLoadingOverlay.style.opacity = '0';
@@ -525,9 +528,6 @@ a:active {
         setTimeout(() => {
           mapLoadingOverlay.style.display = 'none';
         }, 500);
-
-        // Putar audio welcome setelah loading map selesai
-        welcomeAudio.play().catch(e => console.log('Audio welcome belum disiapkan:', e));
 
         // Munculkan banner gambar luar dan jalankan teks running
         showSightingsBanner();
